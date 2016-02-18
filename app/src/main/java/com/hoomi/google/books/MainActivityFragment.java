@@ -1,4 +1,4 @@
-package books.google.hoomi.com.googlebookapiexample.comms;
+package com.hoomi.google.books;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

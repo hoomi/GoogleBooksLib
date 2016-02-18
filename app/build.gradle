@@ -3,13 +3,13 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
     defaultConfig {
-        applicationId "books.google.hoomi.com.googlebookapiexample"
+        applicationId "com.hoomi.google.books"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "API_KEY","\"${project.google_books_api_key}\""
     }
     buildTypes {
         release {
