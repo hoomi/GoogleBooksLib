@@ -123,7 +123,7 @@ public class BookDetailsFragment extends Fragment implements MVPView<VolumeDetai
         }
 
         if (!StringUtils.isEmpty(imageUrl)) {
-            Picasso.with(getContext()).load(imageUrl).fit().centerCrop().into(bookBackgroundImage);
+            Picasso.with(getContext()).load(imageUrl).fit().centerInside().into(bookBackgroundImage);
         }
 
     }
