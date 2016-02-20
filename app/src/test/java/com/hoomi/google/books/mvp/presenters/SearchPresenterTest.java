@@ -165,6 +165,23 @@ public class SearchPresenterTest {
 
         verify(mockedMVPView).show(mockedVolumes);
         verify(mockedMVPView).hideProgress();
+    }
+
+
+    @Test
+    public void testLoadMore() throws Exception {
+        ArgumentCaptor<SearchListener> argumentCaptor = ArgumentCaptor.forClass(SearchListener.class);
+        List<Volume> mockedVolumes = mock(List.class);
+
+        when(mockedVolumes.size()).thenReturn(40);
+
+        searchPresenter.search(TEST_TITLE);
+        searchPresenter.loadMoreVolume(100);
+
+        verify(mockedGoogleBooks).searchInTitleFromIndex(TEST_TITLE,100,40, argumentCaptor.capture());
+
+        argumentCaptor.getValue().onSuccess(mockedVolumes);
+
 
     }
 }

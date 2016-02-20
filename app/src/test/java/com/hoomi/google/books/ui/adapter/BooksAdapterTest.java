@@ -23,6 +23,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,12 +41,14 @@ public class BooksAdapterTest {
     private View.OnClickListener mockedOnClickListener;
     @Mock
     private LayoutInflater mockedLayoutInflater;
+    @Mock
+    private LoadMoreListener mockedLoadMoreListener;
     private BooksAdapter booksAdapter;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        booksAdapter = new BooksAdapter(mockedContext, mockedVolumes, mockedOnClickListener);
+        booksAdapter = new BooksAdapter(mockedContext, mockedVolumes, mockedOnClickListener, mockedLoadMoreListener);
     }
 
     @Test
@@ -87,6 +91,52 @@ public class BooksAdapterTest {
         verify(mockedView).setTag(mockedVolume);
         verify(bvh.bookImage).setImageBitmap(null);
 
+    }
+
+
+    @Test
+    public void testOnBindViewHolder_LoadMore() throws Exception {
+        View mockedView = mock(View.class);
+        BooksAdapter.BookViewHolder bvh = new BooksAdapter.BookViewHolder(mockedView);
+        bvh.bookImage = mock(ImageView.class);
+        bvh.bookTitle = mock(TextView.class);
+        Volume mockedVolume = mock(Volume.class);
+        int expectedPos = 995;
+
+        reset(mockedVolumes);
+        when(mockedVolumes.size()).thenReturn(1000);
+        when(mockedVolumes.get(expectedPos)).thenReturn(mockedVolume);
+
+        booksAdapter.onBindViewHolder(bvh, expectedPos);
+
+        verify(mockedVolumes).get(expectedPos);
+        verify(mockedView).setTag(mockedVolume);
+        verify(bvh.bookImage).setImageBitmap(null);
+        verify(mockedLoadMoreListener).loadMore(1000);
+
+    }
+
+    @Test
+    public void testAddVolumes() throws Exception {
+        List<Volume> additionalVolumes = mock(List.class);
+
+        booksAdapter.addVolumes(additionalVolumes);
+
+        verify(mockedVolumes).addAll(additionalVolumes);
+    }
+
+    @Test
+    public void testAddVolumes_Null() throws Exception {
+        List<Volume> additionalVolumes = mock(List.class);
+        int expectedSize = 10000;
+
+        when(additionalVolumes.size()).thenReturn(expectedSize);
+
+        booksAdapter.setVolumes(null);
+        booksAdapter.addVolumes(additionalVolumes);
+
+        verify(mockedVolumes,never()).addAll(additionalVolumes);
+        assertEquals(expectedSize, booksAdapter.getItemCount());
     }
 
     @Test

@@ -11,4 +11,6 @@ public interface HoomiGoogleBooks {
     void searchInTitle(String phraseInTitle, SearchListener responseListener);
 
     void volumeDetailsFromId(String volumeId, ResponseListener<VolumeDetails> responseListener);
+
+    void searchInTitleFromIndex(String phraseInTitle, int index, int max, SearchListener searchListener);
 }

@@ -20,7 +20,9 @@ import com.hoomi.google.books.NavigationHandler;
 import com.hoomi.google.books.R;
 import com.hoomi.google.books.mvp.presenters.SearchPresenter;
 import com.hoomi.google.books.mvp.views.MVPView;
+import com.hoomi.google.books.mvp.views.VolumeView;
 import com.hoomi.google.books.ui.adapter.BooksAdapter;
+import com.hoomi.google.books.ui.adapter.LoadMoreListener;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements MVPView<List<Volume>> {
+public class MainActivityFragment extends Fragment implements VolumeView {
 
 
     private SearchPresenter presenter;
@@ -43,6 +45,13 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
         public void onClick(View v) {
             Volume volume = (Volume) v.getTag();
             ((NavigationHandler) getActivity()).switchToDetails(volume.getId());
+        }
+    };
+
+    private LoadMoreListener loadMoreListener = new LoadMoreListener() {
+        @Override
+        public void loadMore(int currentIndex) {
+            presenter.loadMoreVolume(currentIndex);
         }
     };
 
@@ -113,7 +122,7 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
     @Override
     public void show(List<Volume> volumes) {
         if (adapter == null) {
-            adapter = new BooksAdapter(getContext(), volumes, onItemClickedListener);
+            adapter = new BooksAdapter(getContext(), volumes, onItemClickedListener, loadMoreListener);
         }
         adapter.setVolumes(volumes);
         recyclerView.setAdapter(adapter);
@@ -148,5 +157,15 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
 
     public void searchClicked(String title) {
         presenter.search(title);
+    }
+
+    @Override
+    public void addVolumes(List<Volume> volumes) {
+        if (adapter == null) {
+            adapter = new BooksAdapter(getContext(), volumes, onItemClickedListener, loadMoreListener);
+            recyclerView.setAdapter(adapter);
+        } else {
+            adapter.addVolumes(volumes);
+        }
     }
 }

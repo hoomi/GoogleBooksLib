@@ -4,21 +4,7 @@ import com.hoomi.books.lib.comms.NetworkHelper;
 import com.hoomi.books.lib.comms.NetworkHelperImp;
 import com.hoomi.books.lib.listener.ResponseListener;
 import com.hoomi.books.lib.listener.SearchListener;
-import com.hoomi.books.lib.model.ErrorModel;
-import com.hoomi.books.lib.model.GsonFactory;
-import com.hoomi.books.lib.model.SearchResult;
 import com.hoomi.books.lib.model.VolumeDetails;
-import com.hoomi.books.lib.retrofit.SearchService;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by hoomanostovari on 17/02/2016.
@@ -42,5 +28,10 @@ public class HoomiGoogleBooksImp implements HoomiGoogleBooks {
     @Override
     public void volumeDetailsFromId(String volumeId, ResponseListener<VolumeDetails> responseListener) {
         networkHelper.volumeDetailsFromId(volumeId, responseListener);
+    }
+
+    @Override
+    public void searchInTitleFromIndex(String phraseInTitle, int index, int max, SearchListener searchListener) {
+        networkHelper.searchInTitleFromIndex(phraseInTitle, index, max,searchListener);
     }
 }

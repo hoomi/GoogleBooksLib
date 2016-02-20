@@ -21,14 +21,17 @@ import java.util.Map;
  * Created by hoomanostovari on 18/02/2016.
  */
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
+    private static final int LOAD_MARGIN = 10;
     private final Context context;
     private List<Volume> volumes;
     private final View.OnClickListener onClickListener;
+    private LoadMoreListener loadMoreListener;
 
-    public BooksAdapter(Context context, List<Volume> volumes, View.OnClickListener onClickListener) {
+    public BooksAdapter(Context context, List<Volume> volumes, View.OnClickListener onClickListener, LoadMoreListener loadMoreListener) {
         this.context = context;
         this.volumes = volumes;
         this.onClickListener = onClickListener;
+        this.loadMoreListener = loadMoreListener;
     }
 
     @Override
@@ -47,6 +50,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         loadImage(holder, volume);
 
         holder.itemView.setTag(volume);
+
+        if (getItemCount() - position < LOAD_MARGIN) {
+            loadMoreListener.loadMore(getItemCount());
+        }
     }
 
 
@@ -56,9 +63,18 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     }
 
     public void setVolumes(List<Volume> volumes) {
-        int count = getItemCount();
         this.volumes = volumes;
-        notifyItemRangeChanged(0, count);
+    }
+
+    public void addVolumes(List<Volume> volumes) {
+        if (this.volumes == null) {
+            setVolumes(volumes);
+        } else {
+            int index = getItemCount();
+            this.volumes.addAll(volumes);
+            notifyItemRangeInserted(index,volumes.size());
+        }
+
     }
 
     private void loadImage(BookViewHolder holder, Volume volume) {
