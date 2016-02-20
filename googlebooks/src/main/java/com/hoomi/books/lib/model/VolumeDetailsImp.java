@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by hoomanostovari on 20/02/2016.
  */
-public class VolumeDetailsImp implements VolumeDetails {
+class VolumeDetailsImp implements VolumeDetails {
 
     private VolumeInfo volumeInfo;
 

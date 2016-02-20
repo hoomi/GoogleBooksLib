@@ -2,10 +2,12 @@ package com.hoomi.books.lib;
 
 import com.hoomi.books.lib.comms.NetworkHelper;
 import com.hoomi.books.lib.comms.NetworkHelperImp;
+import com.hoomi.books.lib.listener.ResponseListener;
 import com.hoomi.books.lib.listener.SearchListener;
 import com.hoomi.books.lib.model.ErrorModel;
 import com.hoomi.books.lib.model.GsonFactory;
 import com.hoomi.books.lib.model.SearchResult;
+import com.hoomi.books.lib.model.VolumeDetails;
 import com.hoomi.books.lib.retrofit.SearchService;
 
 import java.io.IOException;
@@ -35,5 +37,10 @@ public class HoomiGoogleBooksImp implements HoomiGoogleBooks {
 
     public void searchInTitle(String phraseInTitle, final SearchListener responseListener) {
         networkHelper.searchInTitle(phraseInTitle, responseListener);
+    }
+
+    @Override
+    public void volumeDetailsFromId(String volumeId, ResponseListener<VolumeDetails> responseListener) {
+        networkHelper.volumeDetailsFromId(volumeId, responseListener);
     }
 }

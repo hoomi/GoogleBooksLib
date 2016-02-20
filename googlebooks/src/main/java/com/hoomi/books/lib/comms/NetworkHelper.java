@@ -10,5 +10,5 @@ import com.hoomi.books.lib.model.VolumeDetails;
 public interface NetworkHelper {
     void searchInTitle(String wordInTitle, SearchListener searchListener);
 
-    void programDetailsFromId(String volumeId, ResponseListener<VolumeDetails> responseListener);
+    void volumeDetailsFromId(String volumeId, ResponseListener<VolumeDetails> responseListener);
 }

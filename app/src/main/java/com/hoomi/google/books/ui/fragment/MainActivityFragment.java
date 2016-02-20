@@ -1,6 +1,7 @@
-package com.hoomi.google.books;
+package com.hoomi.google.books.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.ContentLoadingProgressBar;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 
 import com.hoomi.books.lib.HoomiGoogleBooksLib;
 import com.hoomi.books.lib.model.Volume;
+import com.hoomi.google.books.BuildConfig;
+import com.hoomi.google.books.NavigationHandler;
+import com.hoomi.google.books.R;
 import com.hoomi.google.books.mvp.presenters.SearchPresenter;
 import com.hoomi.google.books.mvp.presenters.SearchPresenterImp;
 import com.hoomi.google.books.mvp.views.MVPView;
@@ -38,14 +42,10 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
     private View.OnClickListener onItemClickedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            Volume volume = (Volume) v.getTag();
+            ((NavigationHandler) getActivity()).switchToDetails(volume.getId());
         }
     };
-
-    public static MainActivityFragment newInstance() {
-        MainActivityFragment fragment = new MainActivityFragment();
-        return fragment;
-    }
 
     @VisibleForTesting
     MainActivityFragment(SearchPresenter presenter) {
@@ -54,6 +54,11 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
 
     public MainActivityFragment() {
         this.presenter = new SearchPresenterImp(HoomiGoogleBooksLib.getGoogleBooks(BuildConfig.API_KEY), this);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -83,6 +88,24 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
         errorTextView = (TextView) view.findViewById(R.id.errorTextView);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 
     @Override

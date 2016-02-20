@@ -15,6 +15,7 @@ import com.hoomi.google.books.utils.StringUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hoomanostovari on 18/02/2016.
@@ -34,7 +35,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Using this instead of LayoutInflater.from(context) for testing purposes
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = layoutInflater.inflate(R.layout.book_item, parent, true);
+        View v = layoutInflater.inflate(R.layout.book_item, parent, false);
         v.setOnClickListener(onClickListener);
         return new BookViewHolder(v);
     }
@@ -43,14 +44,11 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     public void onBindViewHolder(BookViewHolder holder, int position) {
         Volume volume = volumes.get(position);
         holder.bookTitle.setText(volume.getTitle());
-        String imageUrl = volume.getImageLinks().get(Volume.KEY_THUMBNAIL);
-        if (!StringUtils.isEmpty(imageUrl)) {
-            Picasso.with(context).load(imageUrl).fit().centerInside().into(holder.bookImage);
-        } else {
-            holder.bookImage.setImageBitmap(null);
-        }
+        loadImage(holder, volume);
+
         holder.itemView.setTag(volume);
     }
+
 
     @Override
     public int getItemCount() {
@@ -60,6 +58,20 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     public void setVolumes(List<Volume> volumes) {
         this.volumes = volumes;
         notifyDataSetChanged();
+    }
+
+    private void loadImage(BookViewHolder holder, Volume volume) {
+        Map<String, String> imageLinks = volume.getImageLinks();
+        if (imageLinks != null) {
+            String imageUrl = imageLinks.get(Volume.KEY_THUMBNAIL);
+            if (!StringUtils.isEmpty(imageUrl)) {
+                Picasso.with(context).load(imageUrl).fit().centerInside().into(holder.bookImage);
+            } else {
+                holder.bookImage.setImageBitmap(null);
+            }
+        } else {
+            holder.bookImage.setImageBitmap(null);
+        }
     }
 
     static class BookViewHolder extends RecyclerView.ViewHolder {

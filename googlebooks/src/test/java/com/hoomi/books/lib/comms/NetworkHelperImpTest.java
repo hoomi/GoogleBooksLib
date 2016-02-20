@@ -115,7 +115,7 @@ public class NetworkHelperImpTest {
         String baseUrl = initMockWebServer(TEST_PATH + "/" + volumeId, mockResponse);
         networkHelperImp = new NetworkHelperImp(API_KEY, baseUrl);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        networkHelperImp.programDetailsFromId(volumeId, new ResponseListener<VolumeDetails>() {
+        networkHelperImp.volumeDetailsFromId(volumeId, new ResponseListener<VolumeDetails>() {
 
             @Override
             public void onSuccess(VolumeDetails volumeDetails) {
@@ -147,7 +147,7 @@ public class NetworkHelperImpTest {
         final boolean[] booleanArray = {false};
         String volumeId = "9e9Kn9N8yP0C";
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        networkHelperImp.programDetailsFromId(volumeId, new ResponseListener<VolumeDetails>() {
+        networkHelperImp.volumeDetailsFromId(volumeId, new ResponseListener<VolumeDetails>() {
 
             @Override
             public void onSuccess(VolumeDetails volumeDetails) {

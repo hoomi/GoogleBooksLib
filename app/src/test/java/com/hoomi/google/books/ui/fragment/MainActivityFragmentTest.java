@@ -1,4 +1,4 @@
-package com.hoomi.google.books;
+package com.hoomi.google.books.ui.fragment;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hoomi.google.books.R;
 import com.hoomi.google.books.mvp.presenters.SearchPresenter;
 
 import org.junit.Before;
@@ -20,8 +21,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -32,7 +31,6 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -188,5 +186,19 @@ public class MainActivityFragmentTest {
         mainActivityFragment.hideProgress();
         verify(mockedContentLoadingProgressBar).hide();
         verify(mockedRecyclerView).setVisibility(View.VISIBLE);
+    }
+
+    @Test
+    public void testOnResume() throws Exception {
+        mainActivityFragment.onResume();
+
+        verify(mockedSearchPresenter).onResume();
+    }
+
+    @Test
+    public void testOnPause() throws Exception {
+        mainActivityFragment.onPause();
+
+        verify(mockedSearchPresenter).onPause();
     }
 }

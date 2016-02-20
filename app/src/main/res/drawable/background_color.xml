@@ -6,9 +6,9 @@
         android:centerColor="#0000EE"
         android:centerX="50%"
         android:centerY="50%"
-        android:endColor="#0000FF"
+        android:endColor="@color/colorPrimary"
         android:gradientRadius="600dp"
-        android:startColor="#000099"
+        android:startColor="@color/colorPrimaryDark"
         android:type="linear" />
 
 </shape>

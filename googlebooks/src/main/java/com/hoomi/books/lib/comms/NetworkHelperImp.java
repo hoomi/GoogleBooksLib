@@ -69,7 +69,7 @@ public class NetworkHelperImp implements NetworkHelper {
     }
 
     @Override
-    public void programDetailsFromId(String volumeId, final ResponseListener<VolumeDetails> responseListener) {
+    public void volumeDetailsFromId(String volumeId, final ResponseListener<VolumeDetails> responseListener) {
         Call<VolumeDetails> volumeDetailsCall = searchService.getVolumeDetails(volumeId);
         volumeDetailsCall.enqueue(new Callback<VolumeDetails>() {
             @Override
