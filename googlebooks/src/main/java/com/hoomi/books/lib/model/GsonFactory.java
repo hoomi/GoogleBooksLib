@@ -16,6 +16,7 @@ public final class GsonFactory {
     public static Gson getGson() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Volume.class, new ModelDeserializer())
+                .registerTypeAdapter(VolumeDetails.class, new ModelDeserializer())
                 .create();
         return gson;
     }
@@ -26,6 +27,8 @@ public final class GsonFactory {
         public CommonModelInterface deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             if (typeOfT == Volume.class) {
                 return context.deserialize(json, VolumeImp.class);
+            } else if (typeOfT == VolumeDetails.class) {
+                return context.deserialize(json, VolumeDetailsImp.class);
             }
             return context.deserialize(json, typeOfT);
         }

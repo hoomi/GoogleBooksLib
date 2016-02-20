@@ -91,7 +91,7 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
             adapter = new BooksAdapter(getContext(), volumes, onItemClickedListener);
             recyclerView.setAdapter(adapter);
         }
-        adapter.setItems(volumes);
+        adapter.setVolumes(volumes);
 
     }
 

@@ -21,14 +21,12 @@ import java.util.List;
  */
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
     private final Context context;
-    private final List<Volume> volumes;
+    private List<Volume> volumes;
     private final View.OnClickListener onClickListener;
-    private List<Volume> items;
 
     public BooksAdapter(Context context, List<Volume> volumes, View.OnClickListener onClickListener) {
         this.context = context;
         this.volumes = volumes;
-
         this.onClickListener = onClickListener;
     }
 
@@ -36,7 +34,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Using this instead of LayoutInflater.from(context) for testing purposes
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = layoutInflater.inflate(R.layout.book_item, parent, false);
+        View v = layoutInflater.inflate(R.layout.book_item, parent, true);
         v.setOnClickListener(onClickListener);
         return new BookViewHolder(v);
     }
@@ -55,18 +53,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     }
 
     @Override
-    public void onBindViewHolder(BookViewHolder holder, int position, List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
-    }
-
-    @Override
     public int getItemCount() {
         return volumes == null ? 0 : volumes.size();
     }
 
-    public void setItems(List<Volume> items) {
-        this.items = items;
-        notifyItemRangeChanged(0, getItemCount());
+    public void setVolumes(List<Volume> volumes) {
+        this.volumes = volumes;
+        notifyDataSetChanged();
     }
 
     static class BookViewHolder extends RecyclerView.ViewHolder {

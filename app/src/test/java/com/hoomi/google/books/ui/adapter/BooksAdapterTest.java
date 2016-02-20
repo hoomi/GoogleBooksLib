@@ -45,7 +45,6 @@ public class BooksAdapterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         booksAdapter = new BooksAdapter(mockedContext, mockedVolumes, mockedOnClickListener);
-
     }
 
     @Test

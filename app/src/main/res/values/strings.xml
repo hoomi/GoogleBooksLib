@@ -2,4 +2,6 @@
     <string name="app_name">GoogleBookApiExample</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="please_enter_part_of_the_book_title">Please enter part of the book title</string>
+    <string name="no_content">No Content</string>
 </resources>
