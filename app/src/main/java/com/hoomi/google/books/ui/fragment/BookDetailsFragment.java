@@ -4,6 +4,7 @@ package com.hoomi.google.books.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,11 +79,16 @@ public class BookDetailsFragment extends Fragment implements MVPView<VolumeDetai
     @Override
     public void show(VolumeDetails volumeDetails) {
         if (volumeDetails != null) {
-            bookDescription.setText(volumeDetails.getDescription());
+            if (!StringUtils.isEmpty(volumeDetails.getDescription())) {
+                bookDescription.setText(Html.fromHtml(volumeDetails.getDescription()));
+            }
             //TODO user plurals and string formatting from Android
             bookPages.setText("Pages: " + volumeDetails.getPageCount());
             bookRatingBar.setRating(volumeDetails.getAverageRating());
             loadImage(volumeDetails);
+            bookDescription.setVisibility(View.VISIBLE);
+            bookPages.setVisibility(View.VISIBLE);
+            bookRatingBar.setVisibility(View.VISIBLE);
         }
     }
 

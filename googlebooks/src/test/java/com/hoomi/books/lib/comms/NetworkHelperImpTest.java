@@ -103,7 +103,7 @@ public class NetworkHelperImpTest {
             }
 
         });
-        countDownLatch.await(10000, TimeUnit.MILLISECONDS);
+        countDownLatch.await(1000000, TimeUnit.MILLISECONDS);
         assertTrue(booleanArray[0]);
     }
 
@@ -120,9 +120,9 @@ public class NetworkHelperImpTest {
             @Override
             public void onSuccess(VolumeDetails volumeDetails) {
                 assertNotNull(volumeDetails);
-                assertEquals("Best Android Apps",volumeDetails.getTitle());
-                assertEquals(240,volumeDetails.getPageCount());
-                assertEquals(4f,volumeDetails.getAverageRating());
+                assertEquals("Best Android Apps", volumeDetails.getTitle());
+                assertEquals(240, volumeDetails.getPageCount());
+                assertEquals(4f, volumeDetails.getAverageRating());
                 assertNotNull(volumeDetails.getImageLinks());
                 assertTrue(volumeDetails.getImageLinks().size() > 0);
                 assertTrue(volumeDetails.getAuthors().length > 0);
@@ -167,9 +167,34 @@ public class NetworkHelperImpTest {
         countDownLatch.await(2000, TimeUnit.MILLISECONDS);
 
         assertTrue(booleanArray[0]);
-
     }
 
+
+    @Test
+    public void testRequestWithIndex_Actual() throws Exception {
+        final String apiKey = System.getenv("GOOGLE_BOOKS_API_KEY_WEB");
+        networkHelperImp = new NetworkHelperImp(apiKey, Constants.GOOGLE_BASE_URL);
+        final boolean[] booleanArray = {false};
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        networkHelperImp.searchInTitleFromIndex("android", 30, 40, new SearchListener() {
+            @Override
+            public void onSuccess(List<Volume> volumes) {
+                assertNotNull(volumes);
+                countDownLatch.countDown();
+                booleanArray[0] = true;
+            }
+
+            @Override
+            public void onError(ErrorModel errorModel) {
+                assertTrue("There should not have been an error", false);
+                countDownLatch.countDown();
+            }
+
+        });
+        countDownLatch.await(1000000, TimeUnit.MILLISECONDS);
+        assertTrue(booleanArray[0]);
+
+    }
 
     private String initMockWebServer(String path, MockResponse mockResponse) throws IOException {
         MockWebServer mockWebServer = new MockWebServer();

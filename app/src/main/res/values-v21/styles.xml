@@ -6,5 +6,10 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:colorPrimary">@android:color/transparent</item>
+        <item name="android:progressBarStyleInverse">@style/AppProgressBar</item>
+        <item name="android:progressBarStyle">@style/AppProgressBar</item>
     </style>
+
+    <style name="AppProgressBar" parent="android:Widget.Material.Light.ProgressBar.Inverse"/>
+
 </resources>

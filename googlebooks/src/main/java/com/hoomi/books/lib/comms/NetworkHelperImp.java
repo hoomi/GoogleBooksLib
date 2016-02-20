@@ -39,33 +39,12 @@ public class NetworkHelperImp implements NetworkHelper {
 
     @Override
     public void searchInTitle(String wordInTitle, final SearchListener searchListener) {
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put("key", apiKey);
-        queryMap.put("q", "intitle:" + wordInTitle);
-        Call<SearchResult> call = searchService.searchInTitle(queryMap);
-        call.enqueue(new Callback<SearchResult>() {
-            @Override
-            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
-                if (searchListener != null) {
-                    if (response.isSuccess()) {
-                        searchListener.onSuccess(response.body().getVolumes());
-                    } else {
-                        try {
-                            searchListener.onError(new ErrorModel(response.errorBody().string()));
-                        } catch (IOException e) {
-                            searchListener.onError(new ErrorModel("Something went wrong in the request"));
-                        }
-                    }
-                }
-            }
+        makeSearchRequest(wordInTitle, 0, 20, searchListener);
+    }
 
-            @Override
-            public void onFailure(Call<SearchResult> call, Throwable t) {
-                if (searchListener != null) {
-                    searchListener.onError(new ErrorModel(t.getMessage()));
-                }
-            }
-        });
+    @Override
+    public void searchInTitleFromIndex(String wordInTitle, int index, int maxResult, SearchListener searchListener) {
+        makeSearchRequest(wordInTitle, index, maxResult, searchListener);
     }
 
     @Override
@@ -92,6 +71,38 @@ public class NetworkHelperImp implements NetworkHelper {
             public void onFailure(Call<VolumeDetails> call, Throwable t) {
                 if (responseListener != null) {
                     responseListener.onError(new ErrorModel(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    private void makeSearchRequest(String wordInTitle, int index, int maxResult, final SearchListener searchListener) {
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put("key", apiKey);
+        queryMap.put("q", "intitle:" + wordInTitle);
+        queryMap.put("maxResults", "" + maxResult);
+        queryMap.put("startIndex", "" + index);
+        Call<SearchResult> call = searchService.searchInTitle(queryMap);
+        call.enqueue(new Callback<SearchResult>() {
+            @Override
+            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+                if (searchListener != null) {
+                    if (response.isSuccess()) {
+                        searchListener.onSuccess(response.body().getVolumes());
+                    } else {
+                        try {
+                            searchListener.onError(new ErrorModel(response.errorBody().string()));
+                        } catch (IOException e) {
+                            searchListener.onError(new ErrorModel("Something went wrong in the request"));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchResult> call, Throwable t) {
+                if (searchListener != null) {
+                    searchListener.onError(new ErrorModel(t.getMessage()));
                 }
             }
         });

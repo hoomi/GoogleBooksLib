@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:progressBarStyleInverse">@style/AppProgressBar</item>
+        <item name="android:progressBarStyle">@style/AppProgressBar</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,5 +19,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppProgressBar" parent="android:Widget.Holo.Light.ProgressBar.Inverse"/>
 
 </resources>

@@ -56,8 +56,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     }
 
     public void setVolumes(List<Volume> volumes) {
+        int count = getItemCount();
         this.volumes = volumes;
-        notifyDataSetChanged();
+        notifyItemRangeChanged(0, count);
     }
 
     private void loadImage(BookViewHolder holder, Volume volume) {

@@ -96,6 +96,11 @@ public class BookDetailsFragmentTest {
         verify(mockedBookDesTextView).setText(TEST_DESCRIPTION);
         verify(mockedBookPagesTextView).setText("Pages: " + TEST_PAGE + "");
         verify(mockedBookRating).setRating(TEST_RATING);
+        verify(mockedBookDesTextView).setVisibility(View.VISIBLE);
+        verify(mockedBookPagesTextView).setVisibility(View.VISIBLE);
+        verify(mockedBookRating).setVisibility(View.VISIBLE);
+        verify(mockedBookRating).setEnabled(false);
+
     }
 
     @Test

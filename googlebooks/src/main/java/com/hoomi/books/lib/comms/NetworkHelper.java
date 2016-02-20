@@ -11,4 +11,6 @@ public interface NetworkHelper {
     void searchInTitle(String wordInTitle, SearchListener searchListener);
 
     void volumeDetailsFromId(String volumeId, ResponseListener<VolumeDetails> responseListener);
+
+    void searchInTitleFromIndex(String wordInTitle, int index, int maxResult, SearchListener searchListener);
 }

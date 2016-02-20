@@ -19,7 +19,6 @@ import com.hoomi.google.books.BuildConfig;
 import com.hoomi.google.books.NavigationHandler;
 import com.hoomi.google.books.R;
 import com.hoomi.google.books.mvp.presenters.SearchPresenter;
-import com.hoomi.google.books.mvp.presenters.SearchPresenterImp;
 import com.hoomi.google.books.mvp.views.MVPView;
 import com.hoomi.google.books.ui.adapter.BooksAdapter;
 
@@ -53,7 +52,7 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
     }
 
     public MainActivityFragment() {
-        this.presenter = new SearchPresenterImp(HoomiGoogleBooksLib.getGoogleBooks(BuildConfig.API_KEY), this);
+        this.presenter = new SearchPresenter(HoomiGoogleBooksLib.getGoogleBooks(BuildConfig.API_KEY), this);
     }
 
     @Override
@@ -81,8 +80,7 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         // Using inflater context so we can  inject the context from our tests
         recyclerView.setLayoutManager(new GridLayoutManager(inflater.getContext(),
-                inflater.getContext().getResources().getInteger(R.integer.span),
-                RecyclerView.VERTICAL, true));
+                inflater.getContext().getResources().getInteger(R.integer.span), RecyclerView.VERTICAL, false));
         progressBar = (ContentLoadingProgressBar) view.findViewById(R.id.progressBar);
 
         errorTextView = (TextView) view.findViewById(R.id.errorTextView);
@@ -94,6 +92,10 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
     public void onResume() {
         super.onResume();
         presenter.onResume();
+        if (adapter != null && adapter.getItemCount() > 0) {
+            recyclerView.setAdapter(adapter);
+            errorTextView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -112,9 +114,9 @@ public class MainActivityFragment extends Fragment implements MVPView<List<Volum
     public void show(List<Volume> volumes) {
         if (adapter == null) {
             adapter = new BooksAdapter(getContext(), volumes, onItemClickedListener);
-            recyclerView.setAdapter(adapter);
         }
         adapter.setVolumes(volumes);
+        recyclerView.setAdapter(adapter);
 
     }
 

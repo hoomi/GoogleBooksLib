@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by hoomanostovari on 18/02/2016.
  */
-public class SearchPresenterImpTest {
+public class SearchPresenterTest {
 
     private static final String TEST_TITLE = "android";
     @Mock
@@ -40,12 +40,12 @@ public class SearchPresenterImpTest {
     @Mock
     private MVPView mockedMVPView;
 
-    private SearchPresenterImp searchPresenter;
+    private SearchPresenter searchPresenter;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        searchPresenter = new SearchPresenterImp(mockedGoogleBooks, mockedMVPView);
+        searchPresenter = new SearchPresenter(mockedGoogleBooks, mockedMVPView);
     }
 
     @Test

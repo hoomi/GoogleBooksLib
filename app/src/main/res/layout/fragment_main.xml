@@ -24,10 +24,10 @@
 
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/progressBar"
-        style="@android:style/Widget.ProgressBar.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        style="@style/AppProgressBar"
         android:indeterminate="true"
         android:visibility="gone" />
 
